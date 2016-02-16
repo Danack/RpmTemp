@@ -11,7 +11,7 @@ Summary: Custom built PHP with APCU and other extensions
 Name: php-basereality-%{date}
 Provides: php
 Conflicts: php
-Version: 5.6.7
+Version: 5.6.9
 Release: 1
 License: None
 Group: Development/Tools
@@ -24,6 +24,7 @@ SOURCE2:        php-cli.ini
 SOURCE3:        apcu-4.0.6.tgz
 SOURCE4:        yaml-1.1.1.tgz
 SOURCE5:        php-fpm.conf
+SOURCE6:        php-fpm.init.d
 
 URL: http://php.net/
 
@@ -54,6 +55,8 @@ mkdir -p  %{buildroot}
 rm configure
 ./buildconf --force
 
+#--disable-cgi 
+
 ./configure  \
                 --bindir=/usr/bin \
                 --sbindir=/usr/sbin \
@@ -62,6 +65,7 @@ rm configure
                 --with-config-file-path=/etc \
                 --with-config-file-scan-dir=/etc/php.d \
                 --disable-cgi \
+                --disable-phpdbg \
                 --disable-rpath \
                 --enable-xmlreader \
                 --enable-xmlwriter \
@@ -80,7 +84,6 @@ rm configure
                 --with-bz2 \
                 --with-curl \
                 --with-freetype-dir=/usr/lib \
-                --with-gd \
                 --with-jpeg-dir=/usr/lib \
                 --without-mcrypt \
                 --with-png-dir=/usr/lib \
@@ -89,12 +92,15 @@ rm configure
                 --with-yaml \
                 --with-zlib \
                 --without-mhash \
-                --with-mysql \
                 --with-mysqli=mysqlnd \
                 --with-openssl \
                 --with-pcre-regex \
-                --without-pear \
-                --enable-maintainer-zts
+                --with-gd \
+                --without-pear 
+
+#          --enable-maintainer-zts
+#          --with-gd \
+
 
 make -j2
 
@@ -102,7 +108,7 @@ make -j2
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_initrddir}
-install -Dp -m0755 sapi/fpm/init.d.php-fpm %{buildroot}%{_initrddir}/php-fpm
+install -Dp -m0755 %{SOURCE6} %{buildroot}%{_initrddir}/php-fpm
 %{__make} install INSTALL_ROOT="%{buildroot}"
 cp %{SOURCE1} %{buildroot}/etc/php.ini
 cp %{SOURCE2} %{buildroot}/etc/php-cli.ini
@@ -158,8 +164,10 @@ exit 0
 /usr/local/php/man/man1/*
 /usr/local/php/man/man8/*
 /usr/sbin/*
-/usr/local/lib/php/extensions/no-debug-zts-20131226/opcache.a
-/usr/local/lib/php/extensions/no-debug-zts-20131226/opcache.so
+# /usr/local/lib/php/extensions/no-debug-zts-20131226/opcache.a
+# /usr/local/lib/php/extensions/no-debug-zts-20131226/opcache.so
+/usr/local/lib/php/extensions/no-debug-non-zts-20131226/opcache.a
+/usr/local/lib/php/extensions/no-debug-non-zts-20131226/opcache.so
 
 
 %changelog

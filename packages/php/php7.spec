@@ -7,6 +7,7 @@
 
 %define date %(date +%%Y_%%m_%%d) 
 
+%define verstring 7.0.0RC3
 
 
 
@@ -24,12 +25,13 @@ BuildRoot: %{_tmppath}/php-src-master
 
 Requires: bzip2, libcurl, libxml2
 
-SOURCE0:        http://php.net/get/php-src-master.tar.gz
+SOURCE0:        http://php.net/get/php-%{verstring}.tar.gz
 SOURCE1:        php.ini
 SOURCE2:        php-cli.ini
-SOURCE3:        apcu-4.0.6.tgz
-SOURCE4:        yaml-1.1.1.tgz
+SOURCE3:        apcu-seven.tar.gz
+SOURCE4:        yaml-1.2.0.tgz
 SOURCE5:        php-fpm.conf
+SOURCE6:        php-fpm.init.d
 
 URL: http://php.net/
 
@@ -41,7 +43,7 @@ URL: http://php.net/
 
 %prep
 #%setup -q -n php-%{version}
-%setup -q -n php-src-master
+%setup -q -n php-%{verstring}
 #-T switch disables the automatic unpacking of the archive. -D switch tells the %setup  
 #command not to delete the directory before unpacking and -a switch tells the %setup 
 #command to unpack only the source directive of the given number after changing directory.
@@ -72,8 +74,10 @@ mkdir -p  %{buildroot}
     --sysconfdir=/etc \
     --localstatedir=/var \
     --with-config-file-path=/etc \
-    --with-config-file-scan-dir=/etc/php.d \    
+    --with-config-file-scan-dir=/etc/php.d \
     --disable-rpath \
+    --disable-cgi \
+    --disable-phpdbg \
     --enable-xmlreader \
     --enable-xmlwriter \
     --enable-fpm \
@@ -100,14 +104,12 @@ mkdir -p  %{buildroot}
     --without-mhash \
     --with-mysqli=mysqlnd \
     --with-openssl \
-    --with-pcre-regex \
-    --without-pear \
-    --enable-maintainer-zts
-               
-# --disable-cgi \
-# --enable-apcu \
-# --with-yaml \
-# --disable-phar \
+    --with-pcre-regex 
+    
+# --enable-apcu
+#    --without-pear \  
+# --with-yaml
+
 
 make -j2
 
@@ -115,7 +117,8 @@ make -j2
 %install
 #rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_initrddir}
-install -Dp -m0755 sapi/fpm/init.d.php-fpm %{buildroot}%{_initrddir}/php-fpm
+#install -Dp -m0755 sapi/fpm/init.d.php-fpm %{buildroot}%{_initrddir}/php-fpm
+install -Dp -m0755 %{SOURCE6} %{buildroot}%{_initrddir}/php-fpm
 %{__make} install INSTALL_ROOT="%{buildroot}"
 cp %{SOURCE1} %{buildroot}/etc/php.ini
 cp %{SOURCE2} %{buildroot}/etc/php-cli.ini
@@ -175,9 +178,6 @@ exit 0
 #/usr/local/php/man/man8/*
 /usr/local/lib/php/extensions/no-debug-zts-20141001/opcache.a
 /usr/local/lib/php/extensions/no-debug-zts-20141001/opcache.so
-
-
-
 
 
 %changelog

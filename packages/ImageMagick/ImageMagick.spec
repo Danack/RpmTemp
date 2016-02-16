@@ -1,6 +1,6 @@
-%global VERSION  6.9.0
+%global VERSION  6.9.2
 %global MAJOR_VERSION  6
-%global Patchlevel  7
+%global Patchlevel  0
 
 %define date %(date +%%Y_%%m_%%d)
 
@@ -121,6 +121,7 @@ cp %{SOURCE1} config/policy.xml
 rm -rf %{buildroot}
 
 %build
+
 #%configure --enable-shared \
 #           --disable-static \
 #           --with-modules \
@@ -144,17 +145,18 @@ rm -rf %{buildroot}
 
 # --with-openexr
 # --with-jemalloc
-export CFLAGS="-Wno-deprecated-declarations"
-%configure --with-quantum-depth=32 \
-           --enable-hdri \
-           --with-magick-plus-plus=no \
-           --without-perl \
-           --disable-static \
-           --disable-docs \
-           --program-suffix=hdri32 \
-           --disable-openmp 
+#export CFLAGS="-Wno-deprecated-declarations"
+#%configure --with-quantum-depth=32 \
+#           --enable-hdri \
+#           --with-magick-plus-plus=no \
+#           --without-perl \
+#           --disable-static \
+#           --disable-docs \
+#           --program-suffix=hdri32 \
+#           --disable-openmp 
 
-make install DESTDIR=%{buildroot} INSTALL="install -p"
+#mkdir -p %{buildroot}/usr/bin
+#make install DESTDIR=%{buildroot} INSTALL="install -p"
 
 #
 
@@ -171,13 +173,27 @@ make install DESTDIR=%{buildroot} INSTALL="install -p"
            --disable-docs \
            --disable-openmp 
            
-make install DESTDIR=%{buildroot} INSTALL="install -p"
+           
+#./configure --with-quantum-depth=32 \
+#           --with-magick-plus-plus=no \
+#           --without-perl \
+#           --disable-static \
+#           --exec-prefix=/usr \
+#           --prefix=/usr/lib \
+#           --disable-docs \
+#           --disable-openmp 
 
+           
+
+
+#ldconfig gets called for libs.
 
 %install
 # rm -rf %{buildroot}
-
-#make install DESTDIR=%{buildroot} INSTALL="install -p"
+#mkdir -p %{buildroot}/usr/bin
+#mkdir -p %{buildroot}/usr/sbin
+#make install
+make install DESTDIR=%{buildroot} INSTALL="install -p"
 # cp -a www/source %{buildroot}%{_datadir}/doc/ImageMagick-%{MAJOR_VERSION}
 rm %{buildroot}%{_libdir}/*.la
 
@@ -248,8 +264,6 @@ find %{buildroot} -name ".packlist" |xargs rm -f
 #%{_mandir}/man1/MagickCore-config.*
 #%{_mandir}/man1/Wand-config.*
 #%{_mandir}/man1/MagickWand-config.*
-
-
 
 
 

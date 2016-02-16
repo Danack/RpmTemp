@@ -39,7 +39,7 @@ package "libtool"
 
 package "valgrind"
 package "composer-2015_02_28"
-
+package "jasper"
 
 #Sphinx packages
 #package "babel"

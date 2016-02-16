@@ -1,22 +1,25 @@
-%global php_extdir  %(/usr/local/bin/php-config --extension-dir 2>/dev/null || echo "undefined")
+%global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 %global php_apiver  %((echo 0; php -i 2>/dev/null | sed -n 's/^PHP API => //p') | tail -1)
 
-%define usrbin /usr/local/bin
+# %define usrbin /usr/local/bin
 
-Name:           xdebug
-Version:        2.2.3
+%define date %(date +%%Y_%%m_%%d) 
+
+
+Name:           xdebug-5.6-%{date}
+Version:        2.3.2
 Release:        1
 Summary:        PECL package for debugging PHP scripts
 
 Group:          Development/Languages
 License:        PHP
 URL:            http://pecl.php.net/package/xdebug
-Source0:        http://pecl.php.net/get/%{name}-%{version}.tgz
+Source0:        http://pecl.php.net/get/xdebug-%{version}.tgz
 Source1:        xdebug.ini
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRoot:      %{_tmppath}/xdebug-%{version}-%{release}-root-%(%{__id_u} -n)
 
 #BuildRequires:  php-devel
-Requires:       php(api) = %{php_apiver}
+#Requires:       php(api) = %{php_apiver}
 
 %description
 The Xdebug extension helps you debugging your script by providing a lot of
@@ -37,11 +40,11 @@ Xdebug also provides:
 * capabilities to debug your scripts interactively with a debug client
 
 %prep
-%setup -q
+%setup -q -n xdebug-%{version}
 
 %build
-%{usrbin}/phpize
-%configure --with-php-config=/usr/local/bin/php-config
+phpize
+%configure
 %{__make} %{?_smp_mflags}
 
 %install
@@ -60,6 +63,8 @@ cp %{SOURCE1} %{buildroot}/etc/php.d/xdebug.ini
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/php.d/xdebug.ini
 %{php_extdir}/*.so
+
+
 #/usr/local/include/php/ext/apcu/apc_serializer.h
 #%exclude /usr/local/include/php/ext/apcu/apc.h
 

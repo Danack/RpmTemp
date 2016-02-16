@@ -48,12 +48,22 @@
   <!-- <policy domain="resource" name="temporary-path" value="/tmp"/> -->
   <!-- <policy domain="resource" name="memory" value="2GiB"/> -->
   <!-- <policy domain="resource" name="map" value="4GiB"/> -->
-  <!-- <policy domain="resource" name="area" value="1GB"/> -->
-  <!-- <policy domain="resource" name="disk" value="16EB"/> -->
+    
+  <!-- Set the maximum area that will be processed in memory. Images larger than this
+    will be paged to disk. -->
+  <policy domain="resource" name="area" value="16MB"/>
+  
+  <!-- Set the maximum area that will be processed on disk. Images larger than this
+   will throw an exception -->
+  <policy domain="resource" name="disk" value="64MB"/>
+    
+    
   <!-- <policy domain="resource" name="file" value="768"/> -->
   <policy domain="resource" name="thread" value="1"/>
   <!-- <policy domain="resource" name="throttle" value="0"/> -->
-  <!-- <policy domain="resource" name="time" value="3600"/> -->
+    
+  <!-- Set a maximum time that images will be processed for -->
+  <policy domain="resource" name="time" value="45"/>
   <!-- <policy domain="system" name="precision" value="6"/> -->
   <policy domain="cache" name="shared-secret" value="passphrase"/>
 </policymap>

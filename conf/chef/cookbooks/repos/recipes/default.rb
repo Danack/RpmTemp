@@ -1,10 +1,10 @@
 
-template "/etc/yum.repos.d/basereality.repo" do
-  source "basereality.repo.erb"
-  owner "root"
-  group "root"
-  mode 00644
-end
+#template "/etc/yum.repos.d/basereality.repo" do
+#  source "basereality.repo.erb"
+#  owner "root"
+#  group "root"
+#  mode 00644
+#end
 
 
 execute 'add_rpm_epel' do
