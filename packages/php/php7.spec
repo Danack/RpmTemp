@@ -87,6 +87,7 @@ mkdir -p  %{buildroot}
     --enable-mbstring \
     --enable-pcntl \
     --enable-pdo \
+    --enable-phar \
     --enable-sockets \
     --enable-sysvsem \
     --enable-sysvshm \
