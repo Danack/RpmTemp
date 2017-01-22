@@ -7,7 +7,7 @@
 
 %define date %(date +%%Y_%%m_%%d) 
 
-%define verstring 7.0.0RC3
+%define verstring 7.1.1
 
 
 
@@ -15,7 +15,7 @@ Summary: Custom built PHP with APCU and other extensions
 Name: php7-basereality-%{date}
 Provides: php
 Conflicts: php
-Version: 7.0.0
+Version: %{verstring}
 Release: 1
 License: None
 Group: Development/Tools
@@ -28,8 +28,8 @@ Requires: bzip2, libcurl, libxml2
 SOURCE0:        http://php.net/get/php-%{verstring}.tar.gz
 SOURCE1:        php.ini
 SOURCE2:        php-cli.ini
-SOURCE3:        apcu-seven.tar.gz
-SOURCE4:        yaml-1.2.0.tgz
+SOURCE3:        apcu-5.1.8.tgz
+# SOURCE4:        yaml-1.2.0.tgz
 SOURCE5:        php-fpm.conf
 SOURCE6:        php-fpm.init.d
 
@@ -105,14 +105,15 @@ mkdir -p  %{buildroot}
     --without-mhash \
     --with-mysqli=mysqlnd \
     --with-openssl \
-    --with-pcre-regex 
+    --with-pcre-regex \
+    --without-pear
     
 # --enable-apcu
-#    --without-pear \  
+
 # --with-yaml
 
 
-make -j2
+make -j8
 
 
 %install
@@ -177,12 +178,6 @@ exit 0
 #/usr/local/php/fpm/*
 #/usr/local/php/man/man1/*
 #/usr/local/php/man/man8/*
-/usr/local/lib/php/extensions/no-debug-zts-20141001/opcache.a
-/usr/local/lib/php/extensions/no-debug-zts-20141001/opcache.so
+/usr/local/lib/php/extensions/no-debug-non-zts-20160303/opcache.a
+/usr/local/lib/php/extensions/no-debug-non-zts-20160303/opcache.so
 
-
-%changelog
-* Thu Apr 24 2009  Elia Pinto <devzero2000@rpm5.org> 1.0-1
-- First Build
-
-EOF

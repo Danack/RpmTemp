@@ -22,7 +22,6 @@ BuildRoot:      %{_tmppath}/ImageMagick-%{version}-%{release}-root-%(%{__id_u} -
 #BuildRequires:  ghostscript-devel, djvulibre-devel
 #BuildRequires:  libwmf-devel, jasper-devel, libtool-ltdl-devel
 #BuildRequires:  libX11-devel, libXext-devel, libXt-devel
-#BuildRequires:  lcms-devel, libxml2-devel, librsvg2-devel, OpenEXR-devel
 
 
 BuildRequires:  bzip2-devel, freetype-devel, libjpeg-devel, libpng-devel
@@ -72,7 +71,6 @@ Requires: bzip2-devel
 Requires: freetype-devel
 Requires: libtiff-devel
 Requires: libjpeg-devel
-Requires: lcms-devel
 Requires: jasper-devel
 Requires: pkgconfig
 Requires: %{name}-libs = %{version}-%{release}
