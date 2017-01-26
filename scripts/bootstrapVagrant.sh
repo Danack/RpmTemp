@@ -21,17 +21,36 @@ done
 
 echo "guest is ${guest}"
 
-
-cd /home/github/PackageTest/PackageTest
+# cd /home/github/PackageTest/PackageTest
 
 #Huge download!
 # yum -y upgrade
 echo "Installing gcc make ruby ruby-devel ruby-libs rubygems"
-yum -y install gcc make ruby ruby-devel ruby-libs rubygems
+# yum -y install gcc make ruby ruby-devel ruby-libs rubygems
+
+yum -y install gcc make
+yum -y install autoconf bison re2c bzip2-devel libcurl-devel libjpeg-turbo-devel libpng-devel libxml2-devel freetype-devel libpng libjpeg-turbo libmcrypt-devel libicu-devel libyaml-devel git ghostscript gcc gcc-c++ openssl-devel siege strace fftw fftw-devel rpm-build pcre-devel createrepo libyaml-devel jasper-devel lcms-devel libX11-devel libXext-devel libXt-devel ghostscript-devel libtiff-devel libwebp-devel giflib-devel libtool valgrind jasper
+#Sphinx packages
+#package "babel"
+#package "setuptools"
+#package "elementtree"
+#package "meld3"
+#package "Sphinx"
+#package "snowballstemmer"
+#package "docutils"
+#package "Pygments"
+#package "Jinja2"
+#package "six"
+#package "pytz"
+#package "MarkupSafe"
+
+
+
+
 
 
 # update RubyGems
-echo "Forget updating gems"
+# echo "Forget updating gems"
 
 # This is disabled because it takes approximately forever
 #echo "Updating gems"
@@ -45,15 +64,15 @@ echo "installing chef"
 # gem install chef ohai --no-rdoc --no-ri
 # gem install chef ohai travis --no-rdoc --no-ri
 
-if ! gem spec mime-types > /dev/null 2>&1; then
-  echo "gem install mime-types -v 1.25 --no-rdoc --no-ri"
-  gem install mime-types -v 1.25 --no-rdoc --no-ri
-fi
+# if ! gem spec mime-types > /dev/null 2>&1; then
+#   echo "gem install mime-types -v 1.25 --no-rdoc --no-ri"
+#   gem install mime-types -v 1.25 --no-rdoc --no-ri
+# fi
 
-if ! gem spec chef > /dev/null 2>&1; then
-  echo "gem install chef --no-rdoc --no-ri"
-  gem install chef -v 1.25 --no-rdoc --no-ri
-fi
+# if ! gem spec chef > /dev/null 2>&1; then
+#   echo "gem install chef --no-rdoc --no-ri"
+#   gem install chef -v 1.25 --no-rdoc --no-ri
+# fi
 
 #if ! gem spec ohai > /dev/null 2>&1; then
 #  gem install ohai -v 1.25 --no-rdoc --no-ri
